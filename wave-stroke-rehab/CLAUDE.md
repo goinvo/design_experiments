@@ -164,14 +164,17 @@ Post-stroke rehab clinicians face significant workflow challenges with existing 
 
 **When sending screens to Figma**, always use `outputMode: existingFile`, `fileKey: yUKPCFiqbv87LmiQn7H3Rn`, and `nodeId: 445:234` so captures land on the correct page.
 
-**Screen variants** (each is a separate HTML file served via `python3 -m http.server 8080` from this directory):
+**Screen variants** (each is a separate HTML file served via `python3 -m http.server 8080 --directory /Users/maverickchan/maverickchan/design_experiments/wave-stroke-rehab`):
 - `stroke-recovery-platform.html` — Dashboard (overview)
 - `stroke-recovery-patient.html` — Patient Detail modal (auto-opens patient 1)
 - `wave-manager.html` — Manager / Team view
 - `wave-calendar.html` — Calendar view
 - `wave-archive.html` — Archive view
+- `wave-design-system.html` — Design system (colors, typography, spacing, components)
 
 **Capture notes:**
-- Files use React + Babel standalone — requires `figmadelay=6000` (6s compile time)
+- App screens use React + Babel standalone — requires `figmadelay=6000` (6s compile time)
+- Design system page is pure HTML — `figmadelay=4000` is sufficient
 - Capture sequentially (one browser tab at a time) to avoid timeout from resource contention
 - Server must be running before opening capture URLs (`lsof -i :8080` to check)
+- Always start server with `--directory` pointing to this folder, not from `cd`
