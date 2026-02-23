@@ -167,6 +167,11 @@ Post-stroke rehab clinicians face significant workflow challenges with existing 
 **Screen variants** (each is a separate HTML file served via `python3 -m http.server 8080 --directory /Users/maverickchan/maverickchan/design_experiments/wave-stroke-rehab`):
 - `stroke-recovery-platform.html` — Dashboard: Card view
 - `overview-list.html` — Dashboard: List view
+- `overview-wave1.html` — Dashboard: Wave 1 filter (Acute Stabilisation)
+- `overview-wave2.html` — Dashboard: Wave 2 filter (Sub-Acute Recovery)
+- `overview-wave3.html` — Dashboard: Wave 3 filter (Active Rehabilitation)
+- `overview-wave4.html` — Dashboard: Wave 4 filter (Community Re-entry)
+- `overview-wave5.html` — Dashboard: Wave 5 filter (Long-term Follow-up)
 - `stroke-recovery-patient.html` — Patient Detail: Overview tab
 - `patient-tab-milestones.html` — Patient Detail: Milestones tab
 - `patient-tab-team.html` — Patient Detail: Team Notes tab
