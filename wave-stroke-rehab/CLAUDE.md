@@ -165,7 +165,8 @@ Post-stroke rehab clinicians face significant workflow challenges with existing 
 **When sending screens to Figma**, always use `outputMode: existingFile`, `fileKey: yUKPCFiqbv87LmiQn7H3Rn`, and `nodeId: 445:234` so captures land on the correct page.
 
 **Screen variants** (each is a separate HTML file served via `python3 -m http.server 8080 --directory /Users/maverickchan/maverickchan/design_experiments/wave-stroke-rehab`):
-- `stroke-recovery-platform.html` — Dashboard (overview)
+- `stroke-recovery-platform.html` — Dashboard: Card view
+- `overview-list.html` — Dashboard: List view
 - `stroke-recovery-patient.html` — Patient Detail: Overview tab
 - `patient-tab-milestones.html` — Patient Detail: Milestones tab
 - `patient-tab-team.html` — Patient Detail: Team Notes tab
