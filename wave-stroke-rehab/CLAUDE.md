@@ -173,7 +173,8 @@ Post-stroke rehab clinicians face significant workflow challenges with existing 
 - `patient-tab-timeline.html` — Patient Detail: Timeline & Calendar tab
 - `patient-tab-transition.html` — Patient Detail: Transition tab
 - `wave-manager.html` — Manager / Team view
-- `wave-calendar.html` — Calendar view
+- `wave-calendar.html` — Calendar: Week view
+- `calendar-month.html` — Calendar: Month view
 - `wave-archive.html` — Archive view
 - `wave-design-system.html` — Design system (colors, typography, spacing, components)
 
