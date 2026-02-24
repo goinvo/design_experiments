@@ -154,6 +154,14 @@ Post-stroke rehab clinicians face significant workflow challenges with existing 
 
 ---
 
+## File Structure
+
+**Master file:** `wave.html` — single source of truth for all prototype functionality. All development and iteration should be based on this file.
+
+**Figma capture variants:** All state-specific HTML files are archived in the `figma-captures/` subfolder. These are generated from `wave.html` (via `sed` to swap `useState` values) purely for Figma export — do not edit them directly.
+
+---
+
 ## Figma
 
 **Target file:** Design Experiments
@@ -164,29 +172,33 @@ Post-stroke rehab clinicians face significant workflow challenges with existing 
 
 **When sending screens to Figma**, always use `outputMode: existingFile`, `fileKey: yUKPCFiqbv87LmiQn7H3Rn`, and `nodeId: 445:234` so captures land on the correct page.
 
-**Screen variants** (each is a separate HTML file served via `python3 -m http.server 8080 --directory /Users/maverickchan/maverickchan/design_experiments/wave-stroke-rehab`):
-- `stroke-recovery-platform.html` — Dashboard: Card view
-- `overview-list.html` — Dashboard: List view
-- `overview-wave1.html` — Dashboard: Wave 1 filter (Acute Stabilisation)
-- `overview-wave2.html` — Dashboard: Wave 2 filter (Sub-Acute Recovery)
-- `overview-wave3.html` — Dashboard: Wave 3 filter (Active Rehabilitation)
-- `overview-wave4.html` — Dashboard: Wave 4 filter (Community Re-entry)
-- `overview-wave5.html` — Dashboard: Wave 5 filter (Long-term Follow-up)
-- `stroke-recovery-patient.html` — Patient Detail: Overview tab
-- `patient-tab-milestones.html` — Patient Detail: Milestones tab
-- `patient-tab-team.html` — Patient Detail: Team Notes tab
-- `patient-tab-cohort.html` — Patient Detail: Cohort Insights tab
-- `patient-tab-timeline.html` — Patient Detail: Timeline & Calendar tab
-- `patient-tab-transition.html` — Patient Detail: Transition tab
-- `wave-manager.html` — Manager / Team view
-- `wave-calendar.html` — Calendar: Week view
-- `calendar-month.html` — Calendar: Month view
-- `wave-archive.html` — Archive view
-- `wave-design-system.html` — Design system (colors, typography, spacing, components)
+**Server command** (must be running before opening capture URLs):
+```
+python3 -m http.server 8080 --directory /Users/maverickchan/maverickchan/design_experiments/wave-stroke-rehab
+```
+Check if running: `lsof -i :8080`. Always use `--directory` flag — do not `cd` into the folder first.
+
+**Screen variants** (served from `figma-captures/` subfolder, e.g. `http://localhost:8080/figma-captures/stroke-recovery-platform.html`):
+- `figma-captures/stroke-recovery-platform.html` — Dashboard: Card view
+- `figma-captures/overview-list.html` — Dashboard: List view
+- `figma-captures/overview-wave1.html` — Dashboard: Wave 1 filter (Acute Stabilisation)
+- `figma-captures/overview-wave2.html` — Dashboard: Wave 2 filter (Sub-Acute Recovery)
+- `figma-captures/overview-wave3.html` — Dashboard: Wave 3 filter (Active Rehabilitation)
+- `figma-captures/overview-wave4.html` — Dashboard: Wave 4 filter (Community Re-entry)
+- `figma-captures/overview-wave5.html` — Dashboard: Wave 5 filter (Long-term Follow-up)
+- `figma-captures/stroke-recovery-patient.html` — Patient Detail: Overview tab
+- `figma-captures/patient-tab-milestones.html` — Patient Detail: Milestones tab
+- `figma-captures/patient-tab-team.html` — Patient Detail: Team Notes tab
+- `figma-captures/patient-tab-cohort.html` — Patient Detail: Cohort Insights tab
+- `figma-captures/patient-tab-timeline.html` — Patient Detail: Timeline & Calendar tab
+- `figma-captures/patient-tab-transition.html` — Patient Detail: Transition tab
+- `figma-captures/wave-manager.html` — Manager / Team view
+- `figma-captures/wave-calendar.html` — Calendar: Week view
+- `figma-captures/calendar-month.html` — Calendar: Month view
+- `figma-captures/wave-archive.html` — Archive view
+- `figma-captures/wave-design-system.html` — Design system (colors, typography, spacing, components)
 
 **Capture notes:**
 - App screens use React + Babel standalone — requires `figmadelay=6000` (6s compile time)
 - Design system page is pure HTML — `figmadelay=4000` is sufficient
 - Capture sequentially (one browser tab at a time) to avoid timeout from resource contention
-- Server must be running before opening capture URLs (`lsof -i :8080` to check)
-- Always start server with `--directory` pointing to this folder, not from `cd`
