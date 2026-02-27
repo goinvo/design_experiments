@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Patient Card — Colour Variants</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;700;800&display=swap" rel="stylesheet">
+<script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #f0eff4;
+    padding: 48px 40px;
+  }
+
+  h1 {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: #9ca3af;
+    margin-bottom: 32px;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(4, 320px);
+    gap: 32px;
+    align-items: start;
+  }
+
+  .variant-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #9ca3af;
+    margin-bottom: 10px;
+  }
+
+  /* ─── BASE CARD STRUCTURE ─── */
+  .card {
+    border-radius: 18px;
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Priority stripe — left edge */
+  .card.urgent::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 4px;
+    border-radius: 18px 0 0 18px;
+  }
+
+  .card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .patient-meta { display: flex; flex-direction: column; gap: 4px; }
+
+  .name-row { display: flex; align-items: center; gap: 8px; }
+
+  .patient-name {
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1.1;
+  }
+
+  .demo-badge {
+    font-size: 11px;
+    font-weight: 600;
+    border-radius: 20px;
+    padding: 2px 8px;
+    white-space: nowrap;
+  }
+
+  .diagnosis {
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1.4;
+  }
+
+  .room {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.4px;
+    margin-top: 1px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .room-icon {
+    font-size: 10px;
+    opacity: 0.7;
+  }
+
+  .priority-badge {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    border-radius: 20px;
+    padding: 3px 10px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .divider {
+    height: 1px;
+    width: 100%;
+    flex-shrink: 0;
+  }
+
+  /* ─── WAVE / MILESTONE SECTION ─── */
+  .wave-section { display: flex; flex-direction: column; gap: 7px; }
+
+  .wave-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .wave-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+  }
+
+  .milestone-count {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  .milestone-total {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 300;
+  }
+
+  .progress-track {
+    height: 7px;
+    border-radius: 4px;
+    width: 100%;
+    position: relative;
+  }
+
+  .progress-fill {
+    height: 100%;
+    border-radius: 4px;
+    width: 85.7%;
+  }
+
+  .attention-row {
+    border-radius: 6px;
+    padding: 5px 8px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 10px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .attention-icon { font-style: normal; font-size: 9px; }
+
+  .attention-label { font-weight: 700; }
+
+  .attention-text { font-weight: 300; }
+
+  /* ─── ACTIVITY / NOTIFICATION ROWS ─── */
+  .section-header {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .event-list { display: flex; flex-direction: column; gap: 4px; }
+
+  .event-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .event-badge {
+    font-size: 10px;
+    font-weight: 600;
+    border-radius: 20px;
+    padding: 2px 8px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    min-width: 80px;
+    text-align: center;
+  }
+
+  .event-text {
+    font-size: 11px;
+    font-weight: 300;
+    line-height: 1.45;
+    flex: 1;
+    padding-top: 2px;
+  }
+
+  .event-time { font-weight: 600; }
+
+  /* ──────────────────────────────────────────────────
+     VARIANT 1: BLUE / LAVENDER (refined from original)
+  ────────────────────────────────────────────────── */
+  .v1 {
+    background: #faf9fc;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 2px 12px rgba(100,60,30,0.08);
+  }
+
+  .v1.urgent::before { background: #c64e4d; }
+
+  .v1 .patient-name { color: #1e1440; }
+  .v1 .demo-badge { background: #eef0f8; color: #6b7280; }
+  .v1 .diagnosis { color: #4b5563; }
+  .v1 .room { color: #9ca3af; }
+
+  .v1 .priority-badge { background: #c64e4d; color: #fdf5f4; }
+
+  .v1 .divider { background: #ece9f5; }
+
+  .v1 .wave-label { color: #2563eb; }
+  .v1 .milestone-count { color: #2d1a0e; }
+  .v1 .milestone-total { color: #6b7280; }
+  .v1 .progress-track { background: #dde5fb; }
+  .v1 .progress-fill { background: #2563eb; }
+
+  /* Attention row gets a tinted background */
+  .v1 .attention-row { background: #fef2f2; color: #b91c1c; }
+
+  .v1 .section-header { color: #9ca3af; }
+
+  /* Activity badges — semantic colors */
+  .v1 .badge-reassessment { background: #e0f2fe; color: #0369a1; }
+  .v1 .badge-family { background: #f3e8ff; color: #7e22ce; }
+  .v1 .badge-medical { background: #fef3c7; color: #92400e; }
+  .v1 .badge-pt { background: #dcfce7; color: #166534; }
+
+  .v1 .event-text { color: #6b7280; }
+  .v1 .event-time { color: #374151; }
+
+  /* ──────────────────────────────────────────────────
+     VARIANT 2: WARM EARTH
+  ────────────────────────────────────────────────── */
+  .v2 {
+    background: #fffbf7;
+    border: 1px solid #e8ddd0;
+    box-shadow: 0 2px 12px rgba(120,70,20,0.09);
+  }
+
+  .v2.urgent::before { background: #b45309; }
+
+  .v2 .patient-name { color: #1c1007; }
+  .v2 .demo-badge { background: #f5ede3; color: #78350f; }
+  .v2 .diagnosis { color: #57534e; }
+  .v2 .room { color: #a8a29e; }
+
+  .v2 .priority-badge { background: #b45309; color: #fffbeb; }
+
+  .v2 .divider { background: #ede8df; }
+
+  .v2 .wave-label { color: #92400e; }
+  .v2 .milestone-count { color: #1c1007; }
+  .v2 .milestone-total { color: #78716c; }
+  .v2 .progress-track { background: #fde68a; }
+  .v2 .progress-fill { background: #d97706; }
+
+  .v2 .attention-row { background: #fff7ed; color: #9a3412; }
+
+  .v2 .section-header { color: #a8a29e; }
+
+  .v2 .badge-reassessment { background: #dbeafe; color: #1e40af; }
+  .v2 .badge-family { background: #ede9fe; color: #5b21b6; }
+  .v2 .badge-medical { background: #fee2e2; color: #991b1b; }
+  .v2 .badge-pt { background: #d1fae5; color: #065f46; }
+
+  .v2 .event-text { color: #78716c; }
+  .v2 .event-time { color: #44403c; }
+
+  /* ──────────────────────────────────────────────────
+     VARIANT 3: TEAL / SLATE (high trust, accessible)
+  ────────────────────────────────────────────────── */
+  .v3 {
+    background: #f8fafc;
+    border: 1px solid #cbd5e1;
+    box-shadow: 0 2px 12px rgba(30,50,80,0.08);
+  }
+
+  .v3.urgent::before { background: #e11d48; }
+
+  .v3 .patient-name { color: #0f172a; }
+  .v3 .demo-badge { background: #e2e8f0; color: #475569; }
+  .v3 .diagnosis { color: #334155; }
+  .v3 .room { color: #64748b; }
+
+  .v3 .priority-badge { background: #e11d48; color: #fff1f2; }
+
+  .v3 .divider { background: #e2e8f0; }
+
+  .v3 .wave-label { color: #0d9488; }
+  .v3 .milestone-count { color: #0f172a; }
+  .v3 .milestone-total { color: #64748b; }
+  .v3 .progress-track { background: #ccfbf1; }
+  .v3 .progress-fill { background: #0d9488; }
+
+  .v3 .attention-row { background: #fff1f2; color: #be123c; }
+
+  .v3 .section-header { color: #94a3b8; }
+
+  .v3 .badge-reassessment { background: #e0f2fe; color: #0c4a6e; }
+  .v3 .badge-family { background: #f3e8ff; color: #6b21a8; }
+  .v3 .badge-medical { background: #fef9c3; color: #713f12; }
+  .v3 .badge-pt { background: #dcfce7; color: #14532d; }
+
+  .v3 .event-text { color: #64748b; }
+  .v3 .event-time { color: #1e293b; }
+
+  /* ──────────────────────────────────────────────────
+     VARIANT 4: DARK CLINICAL
+  ────────────────────────────────────────────────── */
+  .v4 {
+    background: #1a1d27;
+    border: 1px solid #2d3148;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.35);
+  }
+
+  .v4.urgent::before { background: #f87171; }
+
+  .v4 .patient-name { color: #f1f5f9; }
+  .v4 .demo-badge { background: #2d3148; color: #94a3b8; }
+  .v4 .diagnosis { color: #94a3b8; }
+  .v4 .room { color: #475569; }
+
+  .v4 .priority-badge { background: #7f1d1d; color: #fca5a5; }
+
+  .v4 .divider { background: #2d3148; }
+
+  .v4 .wave-label { color: #38bdf8; }
+  .v4 .milestone-count { color: #f1f5f9; }
+  .v4 .milestone-total { color: #64748b; }
+  .v4 .progress-track { background: #1e3a5f; }
+  .v4 .progress-fill { background: #38bdf8; }
+
+  .v4 .attention-row { background: #2d1b1b; color: #f87171; }
+
+  .v4 .section-header { color: #475569; }
+
+  .v4 .badge-reassessment { background: #0c2d4a; color: #7dd3fc; }
+  .v4 .badge-family { background: #2d1b4a; color: #c4b5fd; }
+  .v4 .badge-medical { background: #2d2010; color: #fbbf24; }
+  .v4 .badge-pt { background: #0d2a1c; color: #4ade80; }
+
+  .v4 .event-text { color: #64748b; }
+  .v4 .event-time { color: #cbd5e1; }
+</style>
+</head>
+<body>
+
+<h1>Patient Card — Colour Scheme Variants</h1>
+
+<div class="grid">
+
+  <!-- ─── VARIANT 1: Blue / Lavender ─── -->
+  <div>
+    <div class="variant-label">01 · Blue / Lavender (Refined)</div>
+    <div class="card v1 urgent">
+      <div class="card-header">
+        <div class="patient-meta">
+          <div class="name-row">
+            <span class="patient-name v1">Jake Rivera</span>
+            <span class="demo-badge v1">45M</span>
+          </div>
+          <span class="diagnosis v1">Left MCA Ischemic Stroke · Moderate</span>
+          <span class="room v1"><span class="room-icon">⬡</span> 2A-451-3</span>
+        </div>
+        <span class="priority-badge v1">Urgent</span>
+      </div>
+
+      <div class="divider v1"></div>
+
+      <div class="wave-section">
+        <div class="wave-row">
+          <span class="wave-label v1">Wave 2 · Inpatient Rehab</span>
+          <span>
+            <span class="milestone-count v1">12</span>
+            <span class="milestone-total v1"> / 14 milestones</span>
+          </span>
+        </div>
+        <div class="progress-track v1">
+          <div class="progress-fill v1"></div>
+        </div>
+        <div class="attention-row v1">
+          <span class="attention-icon">▲</span>
+          <span class="attention-label">Needs Attention:</span>
+          <span class="attention-text">Behind cohort by 15%</span>
+        </div>
+      </div>
+
+      <div class="divider v1"></div>
+
+      <div>
+        <div class="section-header v1">Upcoming Activities</div>
+        <div class="event-list">
+          <div class="event-row">
+            <span class="event-badge v1 badge-reassessment">Reassessment</span>
+            <span class="event-text v1"><span class="event-time v1">3:00PM ·</span> Continue oral motor exercises. Reassess swallow readiness — patient reported...</span>
+          </div>
+          <div class="event-row">
+            <span class="event-badge v1 badge-family">Family Meeting</span>
+            <span class="event-text v1"><span class="event-time v1">4:30PM ·</span> Family training session with spouse.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider v1"></div>
+
+      <div>
+        <div class="section-header v1">Notifications</div>
+        <div class="event-list">
+          <div class="event-row">
+            <span class="event-badge v1 badge-medical">Medical</span>
+            <span class="event-text v1"><span class="event-time v1">7:03AM ·</span> New med: Plavix — check bleeding risk before any invasive swallow procedure.</span>
+          </div>
+          <div class="event-row">
+            <span class="event-badge v1 badge-pt">PT</span>
+            <span class="event-text v1"><span class="event-time v1">Yesterday ·</span> Achieved standing transfers today. Ready for more complex verbal instructions.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── VARIANT 2: Warm Earth ─── -->
+  <div>
+    <div class="variant-label">02 · Warm Earth</div>
+    <div class="card v2 urgent">
+      <div class="card-header">
+        <div class="patient-meta">
+          <div class="name-row">
+            <span class="patient-name v2">Jake Rivera</span>
+            <span class="demo-badge v2">45M</span>
+          </div>
+          <span class="diagnosis v2">Left MCA Ischemic Stroke · Moderate</span>
+          <span class="room v2"><span class="room-icon">⬡</span> 2A-451-3</span>
+        </div>
+        <span class="priority-badge v2">Urgent</span>
+      </div>
+
+      <div class="divider v2"></div>
+
+      <div class="wave-section">
+        <div class="wave-row">
+          <span class="wave-label v2">Wave 2 · Inpatient Rehab</span>
+          <span>
+            <span class="milestone-count v2">12</span>
+            <span class="milestone-total v2"> / 14 milestones</span>
+          </span>
+        </div>
+        <div class="progress-track v2">
+          <div class="progress-fill v2"></div>
+        </div>
+        <div class="attention-row v2">
+          <span class="attention-icon">▲</span>
+          <span class="attention-label">Needs Attention:</span>
+          <span class="attention-text">Behind cohort by 15%</span>
+        </div>
+      </div>
+
+      <div class="divider v2"></div>
+
+      <div>
+        <div class="section-header v2">Upcoming Activities</div>
+        <div class="event-list">
+          <div class="event-row">
+            <span class="event-badge v2 badge-reassessment">Reassessment</span>
+            <span class="event-text v2"><span class="event-time v2">3:00PM ·</span> Continue oral motor exercises. Reassess swallow readiness — patient reported...</span>
+          </div>
+          <div class="event-row">
+            <span class="event-badge v2 badge-family">Family Meeting</span>
+            <span class="event-text v2"><span class="event-time v2">4:30PM ·</span> Family training session with spouse.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider v2"></div>
+
+      <div>
+        <div class="section-header v2">Notifications</div>
+        <div class="event-list">
+          <div class="event-row">
+            <span class="event-badge v2 badge-medical">Medical</span>
+            <span class="event-text v2"><span class="event-time v2">7:03AM ·</span> New med: Plavix — check bleeding risk before any invasive swallow procedure.</span>
+          </div>
+          <div class="event-row">
+            <span class="event-badge v2 badge-pt">PT</span>
+            <span class="event-text v2"><span class="event-time v2">Yesterday ·</span> Achieved standing transfers today. Ready for more complex verbal instructions.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── VARIANT 3: Teal / Slate ─── -->
+  <div>
+    <div class="variant-label">03 · Teal / Slate</div>
+    <div class="card v3 urgent">
+      <div class="card-header">
+        <div class="patient-meta">
+          <div class="name-row">
+            <span class="patient-name v3">Jake Rivera</span>
+            <span class="demo-badge v3">45M</span>
+          </div>
+          <span class="diagnosis v3">Left MCA Ischemic Stroke · Moderate</span>
+          <span class="room v3"><span class="room-icon">⬡</span> 2A-451-3</span>
+        </div>
+        <span class="priority-badge v3">Urgent</span>
+      </div>
+
+      <div class="divider v3"></div>
+
+      <div class="wave-section">
+        <div class="wave-row">
+          <span class="wave-label v3">Wave 2 · Inpatient Rehab</span>
+          <span>
+            <span class="milestone-count v3">12</span>
+            <span class="milestone-total v3"> / 14 milestones</span>
+          </span>
+        </div>
+        <div class="progress-track v3">
+          <div class="progress-fill v3"></div>
+        </div>
+        <div class="attention-row v3">
+          <span class="attention-icon">▲</span>
+          <span class="attention-label">Needs Attention:</span>
+          <span class="attention-text">Behind cohort by 15%</span>
+        </div>
+      </div>
+
+      <div class="divider v3"></div>
+
+      <div>
+        <div class="section-header v3">Upcoming Activities</div>
+        <div class="event-list">
+          <div class="event-row">
+            <span class="event-badge v3 badge-reassessment">Reassessment</span>
+            <span class="event-text v3"><span class="event-time v3">3:00PM ·</span> Continue oral motor exercises. Reassess swallow readiness — patient reported...</span>
+          </div>
+          <div class="event-row">
+            <span class="event-badge v3 badge-family">Family Meeting</span>
+            <span class="event-text v3"><span class="event-time v3">4:30PM ·</span> Family training session with spouse.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider v3"></div>
+
+      <div>
+        <div class="section-header v3">Notifications</div>
+        <div class="event-list">
+          <div class="event-row">
+            <span class="event-badge v3 badge-medical">Medical</span>
+            <span class="event-text v3"><span class="event-time v3">7:03AM ·</span> New med: Plavix — check bleeding risk before any invasive swallow procedure.</span>
+          </div>
+          <div class="event-row">
+            <span class="event-badge v3 badge-pt">PT</span>
+            <span class="event-text v3"><span class="event-time v3">Yesterday ·</span> Achieved standing transfers today. Ready for more complex verbal instructions.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── VARIANT 4: Dark Clinical ─── -->
+  <div>
+    <div class="variant-label">04 · Dark Clinical</div>
+    <div class="card v4 urgent">
+      <div class="card-header">
+        <div class="patient-meta">
+          <div class="name-row">
+            <span class="patient-name v4">Jake Rivera</span>
+            <span class="demo-badge v4">45M</span>
+          </div>
+          <span class="diagnosis v4">Left MCA Ischemic Stroke · Moderate</span>
+          <span class="room v4"><span class="room-icon">⬡</span> 2A-451-3</span>
+        </div>
+        <span class="priority-badge v4">Urgent</span>
+      </div>
+
+      <div class="divider v4"></div>
+
+      <div class="wave-section">
+        <div class="wave-row">
+          <span class="wave-label v4">Wave 2 · Inpatient Rehab</span>
+          <span>
+            <span class="milestone-count v4">12</span>
+            <span class="milestone-total v4"> / 14 milestones</span>
+          </span>
+        </div>
+        <div class="progress-track v4">
+          <div class="progress-fill v4"></div>
+        </div>
+        <div class="attention-row v4">
+          <span class="attention-icon">▲</span>
+          <span class="attention-label">Needs Attention:</span>
+          <span class="attention-text">Behind cohort by 15%</span>
+        </div>
+      </div>
+
+      <div class="divider v4"></div>
+
+      <div>
+        <div class="section-header v4">Upcoming Activities</div>
+        <div class="event-list">
+          <div class="event-row">
+            <span class="event-badge v4 badge-reassessment">Reassessment</span>
+            <span class="event-text v4"><span class="event-time v4">3:00PM ·</span> Continue oral motor exercises. Reassess swallow readiness — patient reported...</span>
+          </div>
+          <div class="event-row">
+            <span class="event-badge v4 badge-family">Family Meeting</span>
+            <span class="event-text v4"><span class="event-time v4">4:30PM ·</span> Family training session with spouse.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider v4"></div>
+
+      <div>
+        <div class="section-header v4">Notifications</div>
+        <div class="event-list">
+          <div class="event-row">
+            <span class="event-badge v4 badge-medical">Medical</span>
+            <span class="event-text v4"><span class="event-time v4">7:03AM ·</span> New med: Plavix — check bleeding risk before any invasive swallow procedure.</span>
+          </div>
+          <div class="event-row">
+            <span class="event-badge v4 badge-pt">PT</span>
+            <span class="event-text v4"><span class="event-time v4">Yesterday ·</span> Achieved standing transfers today. Ready for more complex verbal instructions.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Patient Card — Wave Colour System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@200;400;700;800&display=swap" rel="stylesheet">
+<script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #17161a;
+    padding: 52px 44px;
+  }
+
+  /* ── Page header ── */
+  .page-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+    color: #4b4554;
+    margin-bottom: 6px;
+  }
+
+  .page-desc {
+    font-size: 12px;
+    color: #4b4554;
+    margin-bottom: 48px;
+    line-height: 1.5;
+  }
+
+  /* ── Colour swatch strip at top ── */
+  .swatch-row {
+    display: flex;
+    gap: 32px;
+    margin-bottom: 48px;
+    align-items: center;
+  }
+
+  .swatch-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .swatch {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    flex-shrink: 0;
+  }
+
+  .swatch-meta { display: flex; flex-direction: column; gap: 2px; }
+
+  .swatch-wave {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #4b4554;
+  }
+
+  .swatch-name {
+    font-size: 11px;
+    font-weight: 500;
+    color: #6b6275;
+  }
+
+  /* ── Grid ── */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(4, 300px);
+    gap: 28px;
+    align-items: start;
+  }
+
+  /* ── Column label ── */
+  .col-header {
+    margin-bottom: 12px;
+  }
+
+  .wave-number {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: #4b4554;
+    margin-bottom: 2px;
+  }
+
+  .wave-name {
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 2px;
+  }
+
+  .wave-setting {
+    font-size: 10px;
+    font-weight: 400;
+    color: #4b4554;
+  }
+
+  /* ── Base card ── */
+  .card {
+    border-radius: 18px;
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    position: relative;
+    border-top-width: 1px;
+    border-left-width: 1px;
+    border-right-width: 8px;
+    border-bottom-width: 8px;
+    border-style: solid;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.22);
+  }
+
+  .card-header {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    position: relative;
+  }
+
+  .name-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .patient-name {
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1.1;
+    color: #1c1524;
+  }
+
+  .demo-badge {
+    font-size: 11px;
+    font-weight: 600;
+    border-radius: 20px;
+    padding: 2px 9px;
+  }
+
+  .fav-icon {
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 14px;
+    line-height: 1;
+  }
+
+  .diagnosis {
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+
+  .room {
+    font-size: 11px;
+    font-weight: 400;
+  }
+
+  .divider {
+    height: 1px;
+    width: 100%;
+    flex-shrink: 0;
+  }
+
+  .section-header {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .event-list {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .event-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .event-text {
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1.45;
+    flex: 1;
+  }
+
+  .event-text span { font-weight: 300; }
+
+  .event-badge {
+    font-size: 10px;
+    font-weight: 500;
+    border-radius: 20px;
+    padding: 2px 9px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    align-self: flex-start;
+    margin-top: 1px;
+  }
+
+  .card-footer {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .milestone-count {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    font-weight: 800;
+  }
+
+  .milestone-sep {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 800;
+  }
+
+  .milestone-total {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 800;
+  }
+
+  .milestone-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 400;
+  }
+
+  .cohort-status {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 200;
+    text-align: right;
+  }
+
+  .cohort-status strong { font-weight: 400; }
+
+
+  /* ═══════════════════════════════════════════════
+     WAVE 1 — AMBER
+     Acute Stabilization
+     Warm urgency — the golden hour of recovery.
+     Not alarm red, but a signal to act now.
+  ═══════════════════════════════════════════════ */
+  .w1 { border-color: #d97706; background: #fffbf5; }
+
+  .w1 .wave-name   { color: #d97706; }
+  .w1 .demo-badge  { background: #fef3c7; color: #92400e; }
+  .w1 .fav-icon    { color: #d97706; }
+  .w1 .diagnosis,
+  .w1 .room        { color: #451a03; }
+  .w1 .divider     { background: #fde68a; }
+  .w1 .section-header { color: #d97706; }
+  .w1 .event-text  { color: #451a03; }
+  .w1 .event-badge { background: #fef3c7; color: #92400e; }
+  .w1 .milestone-count,
+  .w1 .milestone-sep,
+  .w1 .milestone-total,
+  .w1 .milestone-label { color: #d97706; }
+  .w1 .cohort-status { color: #d97706; }
+
+
+  /* ═══════════════════════════════════════════════
+     WAVE 2 — ROYAL BLUE
+     Early Intensive Rehabilitation
+     Clinical authority, structured intensity.
+     The core therapeutic phase.
+  ═══════════════════════════════════════════════ */
+  .w2 { border-color: #1d4ed8; background: #f8faff; }
+
+  .w2 .wave-name   { color: #1d4ed8; }
+  .w2 .demo-badge  { background: #dbeafe; color: #1e40af; }
+  .w2 .fav-icon    { color: #1d4ed8; }
+  .w2 .diagnosis,
+  .w2 .room        { color: #1e3a8a; }
+  .w2 .divider     { background: #bfdbfe; }
+  .w2 .section-header { color: #1d4ed8; }
+  .w2 .event-text  { color: #1e3a8a; }
+  .w2 .event-badge { background: #dbeafe; color: #1e40af; }
+  .w2 .milestone-count,
+  .w2 .milestone-sep,
+  .w2 .milestone-total,
+  .w2 .milestone-label { color: #1d4ed8; }
+  .w2 .cohort-status { color: #1d4ed8; }
+
+
+  /* ═══════════════════════════════════════════════
+     WAVE 3 — EMERALD
+     Functional Training
+     Growth, progress, healing independence.
+     Moving from institution toward home.
+  ═══════════════════════════════════════════════ */
+  .w3 { border-color: #059669; background: #f6fefb; }
+
+  .w3 .wave-name   { color: #059669; }
+  .w3 .demo-badge  { background: #d1fae5; color: #065f46; }
+  .w3 .fav-icon    { color: #059669; }
+  .w3 .diagnosis,
+  .w3 .room        { color: #064e3b; }
+  .w3 .divider     { background: #a7f3d0; }
+  .w3 .section-header { color: #059669; }
+  .w3 .event-text  { color: #064e3b; }
+  .w3 .event-badge { background: #d1fae5; color: #065f46; }
+  .w3 .milestone-count,
+  .w3 .milestone-sep,
+  .w3 .milestone-total,
+  .w3 .milestone-label { color: #059669; }
+  .w3 .cohort-status { color: #059669; }
+
+
+  /* ═══════════════════════════════════════════════
+     WAVE 4 — VIOLET
+     Community Reintegration
+     Flourishing, long-term, settled wellbeing.
+     Beyond clinical — back to life.
+  ═══════════════════════════════════════════════ */
+  .w4 { border-color: #7c3aed; background: #faf8ff; }
+
+  .w4 .wave-name   { color: #7c3aed; }
+  .w4 .demo-badge  { background: #ede9fe; color: #5b21b6; }
+  .w4 .fav-icon    { color: #7c3aed; }
+  .w4 .diagnosis,
+  .w4 .room        { color: #3b0764; }
+  .w4 .divider     { background: #ddd6fe; }
+  .w4 .section-header { color: #7c3aed; }
+  .w4 .event-text  { color: #3b0764; }
+  .w4 .event-badge { background: #ede9fe; color: #5b21b6; }
+  .w4 .milestone-count,
+  .w4 .milestone-sep,
+  .w4 .milestone-total,
+  .w4 .milestone-label { color: #7c3aed; }
+  .w4 .cohort-status { color: #7c3aed; }
+
+</style>
+</head>
+<body>
+
+<div class="page-label">Wave Colour System</div>
+<p class="page-desc">Four cohesive, contrasting hues — one per wave. Same saturation depth across all four so they read as a family.</p>
+
+<!-- Swatch strip -->
+<div class="swatch-row">
+  <div class="swatch-item">
+    <div class="swatch" style="background:#d97706;"></div>
+    <div class="swatch-meta">
+      <span class="swatch-wave">Wave 1</span>
+      <span class="swatch-name">Amber — #d97706</span>
+    </div>
+  </div>
+  <div class="swatch-item">
+    <div class="swatch" style="background:#1d4ed8;"></div>
+    <div class="swatch-meta">
+      <span class="swatch-wave">Wave 2</span>
+      <span class="swatch-name">Royal Blue — #1d4ed8</span>
+    </div>
+  </div>
+  <div class="swatch-item">
+    <div class="swatch" style="background:#059669;"></div>
+    <div class="swatch-meta">
+      <span class="swatch-wave">Wave 3</span>
+      <span class="swatch-name">Emerald — #059669</span>
+    </div>
+  </div>
+  <div class="swatch-item">
+    <div class="swatch" style="background:#7c3aed;"></div>
+    <div class="swatch-meta">
+      <span class="swatch-wave">Wave 4</span>
+      <span class="swatch-name">Violet — #7c3aed</span>
+    </div>
+  </div>
+</div>
+
+<!-- Cards -->
+<div class="grid">
+
+  <!-- WAVE 1 -->
+  <div>
+    <div class="col-header">
+      <div class="wave-number">Wave 1</div>
+      <div class="wave-name w1">Acute Stabilization</div>
+      <div class="wave-setting">Acute Hospital · Days 1–7</div>
+    </div>
+    <div class="card w1">
+      <div class="card-header">
+        <div class="name-row">
+          <span class="patient-name">Jake Rivera</span>
+          <span class="demo-badge w1">45M</span>
+        </div>
+        <span class="fav-icon w1">★</span>
+        <span class="diagnosis w1">Left MCA Ischemic Stroke · Moderate</span>
+        <span class="room w1">2A-451-3</span>
+      </div>
+      <div class="divider w1"></div>
+      <div>
+        <div class="section-header w1">Upcoming Activities</div>
+        <div class="event-list">
+          <div class="event-row">
+            <span class="event-text w1">3:00PM · <span>Initial swallow assessment. Monitor for aspiration risk before any oral intake.</span></span>
+            <span class="event-badge w1">Assess</span>
+          </div>
+          <div class="event-row">
+            <span class="event-text w1">4:30PM · <span>Neurology rounds — review CT findings with team.</span></span>
+            <span class="event-badge w1">Rounds</span>
+          </div>
+        </div>
+      </div>
+      <div class="divider w1"></div>
+      <div class="card-footer">
+        <span>
+          <span class="milestone-count w1">4 </span>
+          <span class="milestone-sep w1">/ </span>
+          <span class="milestone-total w1">8</span>
+          <span class="milestone-label w1"> milestones</span>
+        </span>
+        <span class="cohort-status w1">▲ <strong>On track</strong> for Wave 2</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- WAVE 2 -->
+  <div>
+    <div class="col-header">
+      <div class="wave-number">Wave 2</div>
+      <div class="wave-name w2">Early Intensive Rehab</div>
+      <div class="wave-setting">Inpatient Facility · Weeks 1–4</div>
+    </div>
+    <div class="card w2">
+      <div class="card-header">
+        <div class="name-row">
+          <span class="patient-name">Jake Rivera</span>
+          <span class="demo-badge w2">45M</span>
+        </div>
+        <span class="fav-icon w2">★</span>
+        <span class="diagnosis w2">Left MCA Ischemic Stroke · Moderate</span>
+        <span class="room w2">2A-451-3</span>
+      </div>
+      <div class="divider w2"></div>
+      <div>
+        <div class="section-header w2">Upcoming Activities</div>
+        <div class="event-list">
+          <div class="event-row">
+            <span class="event-text w2">3:00PM · <span>Continue oral motor exercises. Reassess swallow readiness — patient reported improved secr...</span></span>
+            <span class="event-badge w2">Event</span>
+          </div>
+          <div class="event-row">
+            <span class="event-text w2">4:30PM · <span>Reassessment</span></span>
+            <span class="event-badge w2">Flag</span>
+          </div>
+        </div>
+      </div>
+      <div class="divider w2"></div>
+      <div class="card-footer">
+        <span>
+          <span class="milestone-count w2">12 </span>
+          <span class="milestone-sep w2">/ </span>
+          <span class="milestone-total w2">14</span>
+          <span class="milestone-label w2"> milestones</span>
+        </span>
+        <span class="cohort-status w2">▲ <strong>Ahead of cohort</strong> by 15%</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- WAVE 3 -->
+  <div>
+    <div class="col-header">
+      <div class="wave-number">Wave 3</div>
+      <div class="wave-name w3">Functional Training</div>
+      <div class="wave-setting">Home Health · Weeks 4–12</div>
+    </div>
+    <div class="card w3">
+      <div class="card-header">
+        <div class="name-row">
+          <span class="patient-name">Jake Rivera</span>
+          <span class="demo-badge w3">45M</span>
+        </div>
+        <span class="fav-icon w3">★</span>
+        <span class="diagnosis w3">Left MCA Ischemic Stroke · Moderate</span>
+        <span class="room w3">2A-451-3</span>
+      </div>
+      <div class="divider w3"></div>
+      <div>
+        <div class="section-header w3">Upcoming Activities</div>
+        <div class="event-list">
+          <div class="event-row">
+            <span class="event-text w3">3:00PM · <span>Home visit — assess kitchen safety and ADL performance in real environment.</span></span>
+            <span class="event-badge w3">Home</span>
+          </div>
+          <div class="event-row">
+            <span class="event-text w3">4:30PM · <span>Caregiver training session with spouse.</span></span>
+            <span class="event-badge w3">Family</span>
+          </div>
+        </div>
+      </div>
+      <div class="divider w3"></div>
+      <div class="card-footer">
+        <span>
+          <span class="milestone-count w3">7 </span>
+          <span class="milestone-sep w3">/ </span>
+          <span class="milestone-total w3">12</span>
+          <span class="milestone-label w3"> milestones</span>
+        </span>
+        <span class="cohort-status w3">— <strong>Tracking with</strong> cohort</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- WAVE 4 -->
+  <div>
+    <div class="col-header">
+      <div class="wave-number">Wave 4</div>
+      <div class="wave-name w4">Community Reintegration</div>
+      <div class="wave-setting">Outpatient · Months 3–6+</div>
+    </div>
+    <div class="card w4">
+      <div class="card-header">
+        <div class="name-row">
+          <span class="patient-name">Jake Rivera</span>
+          <span class="demo-badge w4">45M</span>
+        </div>
+        <span class="fav-icon w4">★</span>
+        <span class="diagnosis w4">Left MCA Ischemic Stroke · Moderate</span>
+        <span class="room w4">2A-451-3</span>
+      </div>
+      <div class="divider w4"></div>
+      <div>
+        <div class="section-header w4">Upcoming Activities</div>
+        <div class="event-list">
+          <div class="event-row">
+            <span class="event-text w4">3:00PM · <span>Return-to-work readiness evaluation. Cognitive load and fatigue assessment.</span></span>
+            <span class="event-badge w4">Eval</span>
+          </div>
+          <div class="event-row">
+            <span class="event-text w4">4:30PM · <span>Stroke support group — first community session.</span></span>
+            <span class="event-badge w4">Community</span>
+          </div>
+        </div>
+      </div>
+      <div class="divider w4"></div>
+      <div class="card-footer">
+        <span>
+          <span class="milestone-count w4">3 </span>
+          <span class="milestone-sep w4">/ </span>
+          <span class="milestone-total w4">10</span>
+          <span class="milestone-label w4"> milestones</span>
+        </span>
+        <span class="cohort-status w4">▲ <strong>Early progress</strong> strong</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Patient Card v3 — Colour Variants</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@200;400;700;800&display=swap" rel="stylesheet">
+<script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #eceaf0;
+    padding: 52px 44px;
+  }
+
+  .page-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    color: #9ca3af;
+    margin-bottom: 6px;
+  }
+
+  .page-desc {
+    font-size: 12px;
+    color: #9ca3af;
+    margin-bottom: 40px;
+    line-height: 1.5;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(4, 300px);
+    gap: 32px;
+    align-items: start;
+  }
+
+  .col-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #9ca3af;
+    margin-bottom: 4px;
+  }
+
+  .col-sublabel {
+    font-size: 11px;
+    color: #b0aab8;
+    margin-bottom: 14px;
+    line-height: 1.45;
+  }
+
+  /* ─────────────────────────────────────────
+     BASE CARD STRUCTURE
+  ───────────────────────────────────────── */
+  .card {
+    background: #ffffff;
+    border-radius: 18px;
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    position: relative;
+    /* Asymmetric border: heavy right + bottom = structural accent */
+    border-top-width: 1px;
+    border-left-width: 1px;
+    border-right-width: 8px;
+    border-bottom-width: 8px;
+    border-style: solid;
+    box-shadow: 0 2px 6px rgba(88,88,91,0.12);
+  }
+
+  /* ── Header ── */
+  .card-header {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    position: relative;
+  }
+
+  .name-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .patient-name {
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1.1;
+    color: #1c1524;
+  }
+
+  .demo-badge {
+    font-size: 11px;
+    font-weight: 600;
+    border-radius: 20px;
+    padding: 2px 9px;
+  }
+
+  .fav-icon {
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 14px;
+    line-height: 1;
+  }
+
+  .diagnosis {
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+
+  .room {
+    font-size: 11px;
+    font-weight: 400;
+  }
+
+  /* ── Divider ── */
+  .divider {
+    height: 1px;
+    width: 100%;
+    flex-shrink: 0;
+    background: #f0edf5;
+  }
+
+  /* ── Activities section ── */
+  .section-header {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .event-list {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .event-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .event-text {
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1.45;
+    flex: 1;
+  }
+
+  .event-text span {
+    font-weight: 300;
+  }
+
+  .event-badge {
+    font-size: 10px;
+    font-weight: 500;
+    border-radius: 20px;
+    padding: 2px 9px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    align-self: flex-start;
+    margin-top: 1px;
+  }
+
+  /* ── Footer ── */
+  .card-footer {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .milestone-count {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    font-weight: 800;
+  }
+
+  .milestone-sep {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 800;
+  }
+
+  .milestone-total {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 800;
+  }
+
+  .milestone-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 400;
+  }
+
+  .cohort-status {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 200;
+    text-align: right;
+  }
+
+  .cohort-status strong {
+    font-weight: 400;
+  }
+
+
+  /* ═══════════════════════════════════════════════════
+     ORIGINAL (reference)
+     Border/accent: terracotta #c0726a
+     Content: purple #55468b
+  ═══════════════════════════════════════════════════ */
+  .orig {
+    border-color: #c0726a;
+  }
+  .orig .demo-badge     { background: #f4f1f6; color: #55468b; }
+  .orig .fav-icon       { color: #3b5bdb; }
+  .orig .diagnosis      { color: #55468b; }
+  .orig .room           { color: #55468b; }
+  .orig .divider        { background: #ede9f4; }
+  .orig .section-header { color: #55468b; }
+  .orig .event-text     { color: #55468b; }
+  .orig .event-badge    { background: #f4f1f6; color: #55468b; }
+  .orig .milestone-count,
+  .orig .milestone-sep,
+  .orig .milestone-total,
+  .orig .milestone-label { color: #c0726a; }
+  .orig .cohort-status  { color: #c0726a; }
+
+
+  /* ═══════════════════════════════════════════════════
+     A — MEDICAL BLUE
+     Border/accent: deep ocean blue #0369a1
+     Content: dark ink blue #0c4a6e
+     Feeling: authoritative, familiar clinical trust
+  ═══════════════════════════════════════════════════ */
+  .a {
+    border-color: #0369a1;
+    background: #ffffff;
+  }
+  .a .demo-badge     { background: #e0f2fe; color: #0369a1; }
+  .a .fav-icon       { color: #0369a1; }
+  .a .diagnosis      { color: #0c4a6e; }
+  .a .room           { color: #0c4a6e; }
+  .a .divider        { background: #e0f2fe; }
+  .a .section-header { color: #0369a1; }
+  .a .event-text     { color: #0c4a6e; }
+  .a .event-badge    { background: #e0f2fe; color: #0369a1; }
+  .a .milestone-count,
+  .a .milestone-sep,
+  .a .milestone-total,
+  .a .milestone-label { color: #0369a1; }
+  .a .cohort-status  { color: #0369a1; }
+
+
+  /* ═══════════════════════════════════════════════════
+     B — FOREST + WARM STONE
+     Border/accent: deep forest green #166534
+     Content: warm dark slate #3d3530
+     Background: barely-there warm white #fdfcfb
+     Feeling: grounded, human, recovery-oriented
+  ═══════════════════════════════════════════════════ */
+  .b {
+    border-color: #166534;
+    background: #fdfcfb;
+  }
+  .b .demo-badge     { background: #dcfce7; color: #166534; }
+  .b .fav-icon       { color: #166534; }
+  .b .diagnosis      { color: #3d3530; }
+  .b .room           { color: #3d3530; }
+  .b .divider        { background: #dcfce7; }
+  .b .section-header { color: #166534; }
+  .b .event-text     { color: #3d3530; }
+  .b .event-badge    { background: #dcfce7; color: #166534; }
+  .b .milestone-count,
+  .b .milestone-sep,
+  .b .milestone-total,
+  .b .milestone-label { color: #166534; }
+  .b .cohort-status  { color: #166534; }
+
+
+  /* ═══════════════════════════════════════════════════
+     C — CHARCOAL + AMBER
+     Border/accent: warm amber #b45309
+     Content: near-black charcoal #1c1917
+     Background: white
+     Feeling: high contrast, urgent energy, data-forward
+  ═══════════════════════════════════════════════════ */
+  .c {
+    border-color: #b45309;
+    background: #ffffff;
+  }
+  .c .demo-badge     { background: #fef3c7; color: #92400e; }
+  .c .fav-icon       { color: #b45309; }
+  .c .diagnosis      { color: #1c1917; }
+  .c .room           { color: #1c1917; }
+  .c .divider        { background: #fef9c3; }
+  .c .section-header { color: #92400e; }
+  .c .event-text     { color: #1c1917; }
+  .c .event-badge    { background: #fef3c7; color: #92400e; }
+  .c .milestone-count,
+  .c .milestone-sep,
+  .c .milestone-total,
+  .c .milestone-label { color: #b45309; }
+  .c .cohort-status  { color: #b45309; }
+
+</style>
+</head>
+<body>
+
+<div class="page-label">Patient Card v3 — Colour Variants</div>
+<p class="page-desc">Original (reference) + 3 new schemes. Border/accent and content color are the only two variables.</p>
+
+<div class="grid">
+
+  <!-- ─── ORIGINAL (reference) ─── -->
+  <div>
+    <div class="col-label">Original</div>
+    <div class="col-sublabel">Terracotta border · Purple content</div>
+    <div class="card orig">
+      <div class="card-header">
+        <div class="name-row">
+          <span class="patient-name">Jake Rivera</span>
+          <span class="demo-badge orig">45M</span>
+        </div>
+        <span class="fav-icon orig">★</span>
+        <span class="diagnosis orig">Left MCA Ischemic Stroke · Moderate</span>
+        <span class="room orig">2A-451-3</span>
+      </div>
+
+      <div class="divider orig"></div>
+
+      <div>
+        <div class="section-header orig">Upcoming Activities</div>
+        <div class="event-list">
+          <div class="event-row">
+            <span class="event-text orig">3:00PM · <span>Continue oral motor exercises. Reassess swallow readiness — patient reported improved secr...</span></span>
+            <span class="event-badge orig">Event</span>
+          </div>
+          <div class="event-row">
+            <span class="event-text orig">4:30PM · <span>Reassessment</span></span>
+            <span class="event-badge orig">Flag</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider orig"></div>
+
+      <div class="card-footer">
+        <span>
+          <span class="milestone-count orig">12 </span>
+          <span class="milestone-sep orig">/ </span>
+          <span class="milestone-total orig">14</span>
+          <span class="milestone-label orig"> milestones</span>
+        </span>
+        <span class="cohort-status orig">▲ <strong>Ahead of cohort</strong> by 15%</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── A: MEDICAL BLUE ─── -->
+  <div>
+    <div class="col-label">A — Medical Blue</div>
+    <div class="col-sublabel">Ocean blue border · Ink blue content</div>
+    <div class="card a">
+      <div class="card-header">
+        <div class="name-row">
+          <span class="patient-name">Jake Rivera</span>
+          <span class="demo-badge a">45M</span>
+        </div>
+        <span class="fav-icon a">★</span>
+        <span class="diagnosis a">Left MCA Ischemic Stroke · Moderate</span>
+        <span class="room a">2A-451-3</span>
+      </div>
+
+      <div class="divider a"></div>
+
+      <div>
+        <div class="section-header a">Upcoming Activities</div>
+        <div class="event-list">
+          <div class="event-row">
+            <span class="event-text a">3:00PM · <span>Continue oral motor exercises. Reassess swallow readiness — patient reported improved secr...</span></span>
+            <span class="event-badge a">Event</span>
+          </div>
+          <div class="event-row">
+            <span class="event-text a">4:30PM · <span>Reassessment</span></span>
+            <span class="event-badge a">Flag</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider a"></div>
+
+      <div class="card-footer">
+        <span>
+          <span class="milestone-count a">12 </span>
+          <span class="milestone-sep a">/ </span>
+          <span class="milestone-total a">14</span>
+          <span class="milestone-label a"> milestones</span>
+        </span>
+        <span class="cohort-status a">▲ <strong>Ahead of cohort</strong> by 15%</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── B: FOREST + WARM STONE ─── -->
+  <div>
+    <div class="col-label">B — Forest</div>
+    <div class="col-sublabel">Forest green border · Warm charcoal content</div>
+    <div class="card b">
+      <div class="card-header">
+        <div class="name-row">
+          <span class="patient-name">Jake Rivera</span>
+          <span class="demo-badge b">45M</span>
+        </div>
+        <span class="fav-icon b">★</span>
+        <span class="diagnosis b">Left MCA Ischemic Stroke · Moderate</span>
+        <span class="room b">2A-451-3</span>
+      </div>
+
+      <div class="divider b"></div>
+
+      <div>
+        <div class="section-header b">Upcoming Activities</div>
+        <div class="event-list">
+          <div class="event-row">
+            <span class="event-text b">3:00PM · <span>Continue oral motor exercises. Reassess swallow readiness — patient reported improved secr...</span></span>
+            <span class="event-badge b">Event</span>
+          </div>
+          <div class="event-row">
+            <span class="event-text b">4:30PM · <span>Reassessment</span></span>
+            <span class="event-badge b">Flag</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider b"></div>
+
+      <div class="card-footer">
+        <span>
+          <span class="milestone-count b">12 </span>
+          <span class="milestone-sep b">/ </span>
+          <span class="milestone-total b">14</span>
+          <span class="milestone-label b"> milestones</span>
+        </span>
+        <span class="cohort-status b">▲ <strong>Ahead of cohort</strong> by 15%</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── C: CHARCOAL + AMBER ─── -->
+  <div>
+    <div class="col-label">C — Amber</div>
+    <div class="col-sublabel">Warm amber border · Near-black content</div>
+    <div class="card c">
+      <div class="card-header">
+        <div class="name-row">
+          <span class="patient-name">Jake Rivera</span>
+          <span class="demo-badge c">45M</span>
+        </div>
+        <span class="fav-icon c">★</span>
+        <span class="diagnosis c">Left MCA Ischemic Stroke · Moderate</span>
+        <span class="room c">2A-451-3</span>
+      </div>
+
+      <div class="divider c"></div>
+
+      <div>
+        <div class="section-header c">Upcoming Activities</div>
+        <div class="event-list">
+          <div class="event-row">
+            <span class="event-text c">3:00PM · <span>Continue oral motor exercises. Reassess swallow readiness — patient reported improved secr...</span></span>
+            <span class="event-badge c">Event</span>
+          </div>
+          <div class="event-row">
+            <span class="event-text c">4:30PM · <span>Reassessment</span></span>
+            <span class="event-badge c">Flag</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider c"></div>
+
+      <div class="card-footer">
+        <span>
+          <span class="milestone-count c">12 </span>
+          <span class="milestone-sep c">/ </span>
+          <span class="milestone-total c">14</span>
+          <span class="milestone-label c"> milestones</span>
+        </span>
+        <span class="cohort-status c">▲ <strong>Ahead of cohort</strong> by 15%</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
